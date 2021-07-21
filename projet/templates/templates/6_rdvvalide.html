@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Statut : rendez-vous validé</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+      <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+
+    <div id="rdvvalide" class="container blocsuivi">
+      <div class="row">
+        <div class="col-md-10 offset-1">
+          <div class="row text-center greenlantern">
+            <h1>Suivi de votre colis en temps réel</h1>
+            <span>Colis n° {{ trackingNumber }}</span>
+          </div>
+          <div class="row hulk">
+            <div class="col-md-2 offset-1">Votre relais :</div>
+            <div class="col-md-4">{{ relayName}}<br>{{ relayAddress }}</div>
+            <div class="col-md-5 pictos">
+              <a data-toggle="collapse" class="fleft" data-target="#horaires" aria-expanded="false" aria-controls="horaires">
+                <div class="circleinfo">
+                  <img src="{{ goh }}" width="50" alt="horaires de mon point relais agrikolis" />
+                  voir les<br>horaires
+                </div>
+              </a>
+              <a href="{{ relayMaps }}" class="fleft" target="_blank" alt="localiser mon point relais agrikolis">
+                <div class="circleinfo">
+                  <img src="{{ gom }}" width="32" alt="localisation de mon point relais agrikolis" />
+                  voir sur<br>la carte
+                </div>
+              </a>
+            </div>
+            <div class="collapse" id="horaires">
+              <div class="row">
+                <div class="col-md-2 offset-1">Horaires :</div>
+                <div class="col-md-8">EN DEVELOPPEMENT<br>Bientôt, les horaires de vos relais!<br></div>
+              </div>
+            </div>
+          </div>
+          <div class="row magneto">
+            <div class="w100 text-center">
+              <h2>Vous avez fixé un rendez-vous avec votre relais !</h2>
+              <div class="ligne-suivi">
+                <div class="progression"></div>
+                <div class="circle-jeangrey1"><img src="{{ valide }}" alt="etape validee"/></div>
+                <div class="circle-jeangrey2"><img src="{{ valide }}" alt="etape validee"/></div>
+                <div class="circle"><img class="picto" src="{{ rdvok }}" alt="rendez-vous fixe en point relais"/></div>
+                <div class="circle-jeangrey4"></div>
+              </div>
+              <div class="row rdv justify-content-center">
+                <div class="col-md-6 rdvfixe">
+                  Vous avez fixé votre rendez-vous de retrait<br><span class="bold">{{ meetingDateTime }}</span>
+                </div>
+                <div class="col-md-4 text-left">
+                  <a href="{{ meetingLink }}" alt="prendre rendez-vous pour retrait colis"><button class="btn btn-primary">Modifier le rendez-vous</button></a>
+                </div>
+              </div>
+              <div class="row historique">
+                <div class="col-md-12"><span class="bold">Historique</span></div>
+                <div class="col-md-2">{{ meetingDateTime }}</div><div class="col-md-10">{{ historic }}</div>
+{#                <div class="col-md-2">23 mars 2020</div><div class="col-md-10">Votre colis vous a été remis  : - )</div>#}
+{#                <div class="col-md-2">23 mars 2020</div><div class="col-md-10">Votre colis vous a été remis  : - )</div>#}
+{#                <div class="col-md-2">23 mars 2020</div><div class="col-md-10">Votre colis vous a été remis  : - )</div>#}
+              </div>
+            </div>
+          </div>
+          <div class="row thing">
+            <div class="col-md-12 text-center">
+              <h1>Suivez un autre colis !</h1>
+              <div class="row justify-content-center">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="inputColis" placeholder="Numéro de colis">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

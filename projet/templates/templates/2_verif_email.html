@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Accueil recherche colis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="accroche white">Suivez votre <span class="yellow">colis</span><br>en <span class="yellow">temps réel</span> !</div>
+        <div class="col-md-6 text-center left">
+          <div class="valign halign">
+            <img src="{{ agrikolis_colis_trouve }}" width="120" alt="colis trouvé agrikolis" />
+            <br><span class="yellow colisok">Un colis correspond<br>au numéro de suivi !</span>
+          </div>
+        </div>
+        <div class="col-md-6 text-center right">
+          <div class="valign">
+            <form class="halign" method="POST">
+              <div class="form-group">
+                <input type="text" name="EmailUser" class="form-control" id="inputMail" placeholder="Adresse email" required>
+                <button type="submit" class="btn btn-primary">Suivre mon colis</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
