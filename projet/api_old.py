@@ -17,13 +17,17 @@ app = Flask(__name__, static_folder='static')  # Instancie une nouvelle applicat
 
 @app.route('/api/tracking', methods=['GET', 'POST'])
 
+
 def verifiedClient():
+    print("Appel /api/tracking")
     if request.method == 'GET':
+        print("Methode GET")
         return render_template("1_verif_numerocolis.html",
                                agrikolis_suivi=url_for('static', filename='agrikolis_suivi.svg'))
 
     if request.method == 'POST':
 
+        print("Methode POST")
         trackingNumber = str(request.form.get("TrackingNumber"))  # Numero de suivi du consommateur
 
         # URL a changer lorsque la methode sera mise en prod
@@ -34,22 +38,22 @@ def verifiedClient():
 
         fileKnow = json.loads(response.data)
 
-        with open('/var/www/api_suivi_prod/data/know.json', 'w') as f:
+        # with open('/var/www/api_suivi_prod/data/know.json', 'w') as f:
+        with open('data/know.json', 'w') as f:
             json.dump(fileKnow, f)
-
-        know_file = json.loads(open('/var/www/api_suivi_prod/data/know.json', 'rb').read())
+        # know_file = json.loads(open('/var/www/api_suivi_prod/data/know.json', 'rb').read())
+        know_file = json.loads(open('data/know.json', 'rb').read())
 
         IsColisinDatabase = know_file['data']['isColisInDatabase']
 
         if IsColisinDatabase == True:
+            print("is colis in database = true")
             return redirect(url_for('dataClient', TrackingNumber=trackingNumber))
 
         else:
+            print("is colis in database = false")
             return render_template("9_error_numerocolis.html",
                                    agrikolis_suivi=url_for('static', filename="agrikolis_suivi.svg"))
-
-
-
 
 
 @app.route('/api/tracking/<TrackingNumber>', methods=['GET', 'POST'])
@@ -64,7 +68,8 @@ def dataClient(TrackingNumber):
     response = https.request('GET', url)
     fileKolis = json.loads(response.data)
 
-    with open('/var/www/api_suivi_prod/data/kolis.json', 'w') as fout:
+    with open('data/kolis.json', 'w') as fout:
+    # with open('/var/www/api_suivi_prod/data/kolis.json', 'w') as fout:
         json.dump(fileKolis, fout)
 
     if request.method == "GET":
@@ -75,7 +80,7 @@ def dataClient(TrackingNumber):
 
         # ApiKolis(TrackingNumber, customerEmail)
 
-        kolis_file = json.loads(open('/var/www/api_suivi_prod/data/kolis.json', 'rb').read())
+        kolis_file = json.loads(open('data/kolis.json', 'rb').read())
 
         # Test si l'email de l'utilisateur est connu
         if kolis_file['status'] == 500:  # Email pas correct
@@ -783,5 +788,7 @@ def dataClient(TrackingNumber):
     else:
         return redirect(url_for('verifiedClient'))
 
+
 if __name__ == '__main__':
+    # app.run()
     app.run(debug=True)

@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 import urllib3
 from flask import Flask, request, render_template, redirect, url_for
@@ -8,8 +9,8 @@ app = Flask(__name__, static_folder='static')  # Instancie une nouvelle applicat
 
 
 @app.route('/tracking', methods=['GET', 'POST'])
-def verifiedClient(): #Premiere fonction
-    if request.method == 'GET': #affichage de la première page
+def verifiedClient():  # Premiere fonction
+    if request.method == 'GET':  # affichage de la première page
         return render_template("1_verif_numerocolis.html",
                                agrikolis_suivi=url_for('static', filename='agrikolis_suivi.svg'))
 
@@ -18,24 +19,24 @@ def verifiedClient(): #Premiere fonction
         trackingNumber = str(request.form.get("TrackingNumber"))  # Numero de suivi du consommateur
 
         # URL a changer lorsque la methode sera mise en prod
-            url = "https://middleware.misyl.net/api/chatbot/known?trackingNumber=" + trackingNumber
+        url = "https://middleware.misyl.net/api/chatbot/known?trackingNumber=" + trackingNumber
         https = urllib3.PoolManager()
 
         response = https.request('GET', url)
 
         fileKnow = json.loads(response.data)
 
-        with open('/var/www/api_suivi_prod/data/know.json', 'w') as f:
+        with open('data/know.json', 'w') as f:
             json.dump(fileKnow, f)
 
-        know_file = json.loads(open('/var/www/api_suivi_prod/data/know.json', 'rb').read())
+        know_file = json.loads(open('data/know.json', 'rb').read())
 
         IsColisinDatabase = know_file['data']['isColisInDatabase']
 
-        if IsColisinDatabase == True: #direction vers la second fonction
+        if IsColisinDatabase == True:  # direction vers la second fonction
             return redirect(url_for('dataClient', TrackingNumber=trackingNumber))
 
-        else: #gestion d'erreur
+        else:  # gestion d'erreur
             return render_template("9_error_numerocolis.html",
                                    agrikolis_suivi=url_for('static', filename="agrikolis_suivi.svg"))
 
@@ -52,10 +53,10 @@ def dataClient(TrackingNumber):
     response = https.request('GET', url)
     fileKolis = json.loads(response.data)
 
-    with open('/var/www/api_suivi_prod/data/kolis.json', 'w') as fout:
+    with open('data/kolis.json', 'w') as fout:
         json.dump(fileKolis, fout)
 
-    if request.method == "GET": #seconde page
+    if request.method == "GET":  # seconde page
         return render_template("2_verif_email.html",
                                agrikolis_colis_trouve=url_for('static', filename='agrikolis_colis_trouve.svg'))
 
@@ -63,7 +64,7 @@ def dataClient(TrackingNumber):
 
         # ApiKolis(TrackingNumber, customerEmail)
 
-        kolis_file = json.loads(open('/var/www/api_suivi_prod/data/kolis.json', 'rb').read())
+        kolis_file = json.loads(open('data/kolis.json', 'rb').read())
 
         # Test si l'email de l'utilisateur est connu
         if kolis_file['status'] == 500:  # Email pas correct
@@ -91,12 +92,13 @@ def dataClient(TrackingNumber):
             productDescription = kolis_file['data']['data']['productDescription']
             now = datetime.now()
             dateHoraire = now.strftime("%d/%m/%Y")
+            mdt = 0
 
-            openings = kolis_file['data']['data']['openings']
-            closings = kolis_file['data']['data']['closings']
+            openings = kolis_file['data']['data']['calendarOpenings']
+            closings = kolis_file['data']['data']['closingDays']
 
-            print(openings[1][1])
-            print(closings[1])
+            # print(openings[1][1])
+            # print(closings[1])
 
             horaires = {
                 "calendarOpening": {
@@ -265,5 +267,8 @@ def dataClient(TrackingNumber):
                                    horaires['calendarOpening']['sunday'][
                                        'plage2'])
 
+
 if __name__ == '__main__':
+    # app.run()
     app.run(debug=True)
+
